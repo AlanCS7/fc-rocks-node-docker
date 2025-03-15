@@ -1,0 +1,44 @@
+services:
+  mysqldb:
+    image: mysql:8.4.4
+    container_name: mysqldb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysqldb
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    image: alancs7/fc-rocks-node-docker
+    container_name: app
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/usr/src/app
+    depends_on:
+      - mysqldb
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
