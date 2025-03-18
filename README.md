@@ -7,7 +7,7 @@ Imagem Docker: [alancs7/fc-rocks-node-docker](https://hub.docker.com/repository/
 ### Para rodar a aplicação utilize o docker compose.
 
 ```
-docker compose up
+docker compose up -d
 ```
 
 Dentro de alguns instantes a aplicação estará no ar.
